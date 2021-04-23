@@ -7,7 +7,7 @@ userController.protect,
 userController.personal
 )
 
-router.put('/update-profile',
+router.patch('/update-profile',
 userController.protect,
 userController.update
 )

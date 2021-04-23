@@ -131,7 +131,7 @@ exports.update = async (req, res, next) => {
         res.status(200).json({ message: 'update user data complete' })
 
     } catch (err) {
-        
+        next(err)
     }
 }
 

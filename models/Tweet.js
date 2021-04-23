@@ -31,7 +31,7 @@ module.exports = (sequelize, DataTypes) => {
                 name: 'replyToTweetId'
             },
             OnUpdate: 'RESTRICT',
-            onDelete: 'RESTRICT' 
+            onDelete: 'CASCADE' 
         })
 
         Tweet.hasMany(models.Retweet, {
@@ -39,7 +39,7 @@ module.exports = (sequelize, DataTypes) => {
                 name: 'tweetId'
             },
             OnUpdate: 'RESTRICT',
-            onDelete: 'RESTRICT' 
+            onDelete: 'CASCADE' 
         })
 
         Tweet.hasMany(models.Bookmark, {

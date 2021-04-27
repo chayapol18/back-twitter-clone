@@ -24,7 +24,7 @@ userController.protect,
 followController.getNumberOfFollower
 )
 
-router.post('/follow-to',
+router.post('/follow-to/:id',
 userController.protect,
 followController.requestFollow
 )

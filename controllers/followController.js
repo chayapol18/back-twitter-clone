@@ -7,7 +7,7 @@ exports.getFollowing = async (req, res, next) => {
             include: {
                 model: User,
                 as: 'Following',
-                attributes: ['name', 'username', 'bio', 'profileImg']
+                attributes: ['id','name', 'username', 'bio', 'profileImg']
             },
             attributes: []
          }) 
@@ -25,7 +25,7 @@ exports.getFollowBy = async (req, res, next) => {
             include: {
                 model: User,
                 as: 'FollowBy',
-                attributes: ['name', 'username', 'bio', 'profileImg']
+                attributes: ['id','name', 'username', 'bio', 'profileImg']
             },
             attributes: [] 
         }) 
@@ -68,12 +68,12 @@ exports.getNumberOfFollower = async (req, res, next) => {
 
 exports.requestFollow = async (req, res, next) => {
     try {
-        const { followingUserId } = req.body;
-        if (req.user.id === Number(followingUserId)) return res.status(400).json({ message: 'cannot follow yourself'})
+        const { id } = req.params;
+        if (req.user.id === Number(id)) return res.status(400).json({ message: 'cannot follow yourself'})
 
         const follow = await Follow.findOne({ 
             where: {
-                    followingUserId,
+                    followingUserId: id,
                     followByUserId: req.user.id
                 }
         })
@@ -81,7 +81,7 @@ exports.requestFollow = async (req, res, next) => {
         if(follow) return res.status(400).json({ message: 'you already follow this user'})
 
         await Follow.create({
-            followingUserId,
+            followingUserId: id,
             followByUserId: req.user.id,
         })
         

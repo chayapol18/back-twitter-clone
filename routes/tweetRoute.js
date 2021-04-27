@@ -7,6 +7,10 @@ router.get('/personal',
 userController.protect,
 tweetController.getUserTweets
 )
+router.get('/other-user/:id',
+userController.protect,
+tweetController.getOtherUserTweets
+)
 
 router.get('/inc-reply/:id',
 userController.protect,

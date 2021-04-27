@@ -46,6 +46,53 @@ exports.getUserTweets = async (req, res, next) => {
   }
 };
 
+exports.getOtherUserTweets = async (req, res, next) => {
+  try {
+    const { id } = req.params
+    const tweets = await Tweet.findAll({
+      where: { userId: id },
+      order: [["createdAt", "desc"]],
+      include: {
+        model: User,
+        attributes: ["id", "name", "username", "profileImg"],
+      },
+      attributes: ["id", "content", "createdAt", "like", "retweets"],
+    });
+
+    const retweets = await Retweet.findAll({
+      where: { userId: id },
+      order: [["createdAt", "desc"]],
+      include: [
+        {
+          model: Tweet,
+          attributes: ["id", "content", "createdAt", "like", "retweets"],
+          include: {
+            model: User,
+            attributes: ["id", "name", "username", "profileImg"],
+          },
+        },
+        {
+          model: User,
+          attributes: ["id", "name", "username", "profileImg"],
+        },
+      ],
+    });
+    // console.log(JSON.parse(JSON.stringify(tweets)))
+
+    const tweetsIncRetweets = [...tweets, ...retweets];
+    // console.log(JSON.parse(JSON.stringify(tweetsIncRetweets)));
+
+    const sortTweets = tweetsIncRetweets.sort(function (a, b) {
+      return b.createdAt - a.createdAt;
+    });
+    console.log(JSON.parse(JSON.stringify(sortTweets)));
+
+    res.status(200).json({ tweets: sortTweets });
+  } catch (err) {
+    next(err);
+  }
+};
+
 exports.getAllTweets = async (req, res, next) => {
   try {
     const requestToFollowId = await Follow.findAll({

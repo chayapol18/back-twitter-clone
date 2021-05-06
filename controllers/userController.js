@@ -254,6 +254,7 @@ exports.searchUser = async (req, res, next) => {
     const { searchData } = req.body;
     const search = await User.findAll({
       where: { username: { [Op.like]: `%${searchData}%` } },
+      order: [["username"]],
     });
 
     res.status(200).json({ search });

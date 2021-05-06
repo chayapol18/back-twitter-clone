@@ -1,5 +1,4 @@
 const { Block, Follow, User, sequelize  } = require('../models')
-const { Op } = require('sequelize')
 
 exports.getBlocking = async (req, res, next) => {
     try {
@@ -63,22 +62,6 @@ exports.blockUser = async (req, res, next) => {
 
         await transaction.commit();
         res.status(201).json({ message: "you are blocking this user" })
-
-        // const following = await Follow.findOne({ 
-        //     where: { 
-        //         followingUserId: blockingUserId, 
-        //         followByUserId: req.user.id
-        //     }
-        // })
-        // if (following) return await following.destroy({ where: {} }, {transaction})
-
-        // const follower = await Follow.findOne({ 
-        //     where: { 
-        //         followingUserId: req.user.id, 
-        //         followByUserId: blockingUserId
-        //     }
-        // })
-        // if (follower) return await follower.destroy({ where: {} }, {transaction})
 
     } catch(err) {
         await transaction.rollback()

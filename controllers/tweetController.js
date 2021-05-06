@@ -30,10 +30,8 @@ exports.getUserTweets = async (req, res, next) => {
         },
       ],
     });
-    // console.log(JSON.parse(JSON.stringify(tweets)))
 
     const tweetsIncRetweets = [...tweets, ...retweets];
-    // console.log(JSON.parse(JSON.stringify(tweetsIncRetweets)));
 
     const sortTweets = tweetsIncRetweets.sort(function (a, b) {
       return b.createdAt - a.createdAt;
@@ -77,10 +75,8 @@ exports.getOtherUserTweets = async (req, res, next) => {
         },
       ],
     });
-    // console.log(JSON.parse(JSON.stringify(tweets)))
 
     const tweetsIncRetweets = [...tweets, ...retweets];
-    // console.log(JSON.parse(JSON.stringify(tweetsIncRetweets)));
 
     const sortTweets = tweetsIncRetweets.sort(function (a, b) {
       return b.createdAt - a.createdAt;
@@ -101,7 +97,6 @@ exports.getAllTweets = async (req, res, next) => {
       },
       attributes: ["followingUserId"],
     });
-    // ใช้ .then() map ต่อได้ แต่ไม่ควรใช้ปนกัน
 
     const toIds = requestToFollowId.map((item) => {
       return item.followingUserId;
@@ -156,17 +151,12 @@ exports.getTweetsIncReply = async (req, res, next) => {
           as: "replyTo",
           where: {
             replyToTweetId: id,
-            // levelTweetId: 2,
           },
           include: {
             model: User,
             attributes: ["id", "name", "username", "profileImg"],
           },
         },
-        // {
-        //   model: User,
-        //   attributes: ["id", "name", "username", "profileImg"],
-        // },
       ],
     });
 
